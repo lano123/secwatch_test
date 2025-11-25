@@ -531,27 +531,35 @@
     syncThemeIcon();
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
-    <script>
-    (function() {
+      <script>
+    (function () {
       const canvas = document.getElementById('secwatch-bg');
-      if (!canvas || !canvas.getContext) return;
-      const ctx = canvas.getContext('2d');
+      const hero = document.getElementById('home');
+      if (!canvas || !canvas.getContext || !hero) return;
 
+      const ctx = canvas.getContext('2d');
       const particles = [];
-      const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+      const mouse = { x: 0, y: 0 };
       const dpr = window.devicePixelRatio || 1;
 
       function resize() {
-        const rect = canvas.getBoundingClientRect();
+        const rect = hero.getBoundingClientRect();
+
+        // nastavíme canvas veľkosť podľa hero sekcie
+        canvas.style.width = rect.width + 'px';
+        canvas.style.height = rect.height + 'px';
+
         canvas.width = rect.width * dpr;
         canvas.height = rect.height * dpr;
+
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
 
       window.addEventListener('resize', resize);
+      // spusti po načítaní
       resize();
 
-      window.addEventListener('mousemove', e => {
+      window.addEventListener('mousemove', (e) => {
         mouse.x = e.clientX;
         mouse.y = e.clientY;
       });
@@ -561,7 +569,7 @@
           this.reset();
         }
         reset() {
-          const rect = canvas.getBoundingClientRect();
+          const rect = hero.getBoundingClientRect();
           this.x = Math.random() * rect.width;
           this.y = Math.random() * rect.height;
           this.vx = (Math.random() - 0.5) * 0.3;
@@ -570,7 +578,7 @@
           this.baseGlow = Math.random() * 0.8 + 0.2;
         }
         update() {
-          const rect = canvas.getBoundingClientRect();
+          const rect = hero.getBoundingClientRect();
           const w = rect.width;
           const h = rect.height;
 
@@ -597,14 +605,15 @@
       }
 
       function animate() {
-        const rect = canvas.getBoundingClientRect();
+        const rect = hero.getBoundingClientRect();
         ctx.clearRect(0, 0, rect.width, rect.height);
-        particles.forEach(p => {
+        particles.forEach((p) => {
           p.update();
           p.draw();
         });
         requestAnimationFrame(animate);
       }
+
       animate();
     })();
   </script>
