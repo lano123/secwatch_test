@@ -132,12 +132,17 @@
     </nav>
   </div>
 
-  <!-- Hero -->
+    <!-- Hero -->
   <section id="home" class="relative overflow-hidden grid-bg">
+    <!-- CYBER-GLOW PARTICLE BACKGROUND -->
+    <canvas id="secwatch-bg" class="pointer-events-none absolute inset-0 -z-20"></canvas>
+
+    <!-- Tvoje existujúce farebné "bloby" -->
     <div class="absolute inset-0 -z-10 opacity-20 dark:opacity-30" aria-hidden="true">
       <div class="absolute -top-32 -right-24 h-80 w-80 rounded-full blur-3xl bg-brand/30" data-parallax data-speed="0.2"></div>
       <div class="absolute -bottom-24 -left-24 h-80 w-80 rounded-full blur-3xl bg-brand/20" data-parallax data-speed="0.15"></div>
     </div>
+
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28" data-animate="fade-up">
       <div class="max-w-3xl">
         <span class="reveal inline-flex items-center gap-2 rounded-full border border-brand/40 px-3 py-1 text-xs font-semibold text-brand/90 bg-brand/5" data-i18n="hero_badge">Web Security • Penetration Testing • Management-ready reporting</span>
@@ -515,6 +520,83 @@
     // Init
     syncThemeIcon();
     document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+    <script>
+    (function() {
+      const canvas = document.getElementById('secwatch-bg');
+      if (!canvas || !canvas.getContext) return;
+      const ctx = canvas.getContext('2d');
+
+      const particles = [];
+      const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+      const dpr = window.devicePixelRatio || 1;
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+
+      window.addEventListener('mousemove', e => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+
+      class Particle {
+        constructor() {
+          this.reset();
+        }
+        reset() {
+          const rect = canvas.getBoundingClientRect();
+          this.x = Math.random() * rect.width;
+          this.y = Math.random() * rect.height;
+          this.vx = (Math.random() - 0.5) * 0.3;
+          this.vy = (Math.random() - 0.5) * 0.3;
+          this.size = Math.random() * 2 + 0.5;
+          this.baseGlow = Math.random() * 0.8 + 0.2;
+        }
+        update() {
+          const rect = canvas.getBoundingClientRect();
+          const w = rect.width;
+          const h = rect.height;
+
+          this.x += this.vx + (mouse.x - w / 2) * 0.00005;
+          this.y += this.vy + (mouse.y - h / 2) * 0.00005;
+
+          if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) {
+            this.reset();
+          }
+        }
+        draw() {
+          const glow = this.baseGlow + Math.sin(Date.now() * 0.002 + this.x) * 0.2;
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(0, 255, 153, ${0.6 * glow})`;
+          ctx.shadowBlur = 15;
+          ctx.shadowColor = '#00ff99';
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < 200; i++) {
+        particles.push(new Particle());
+      }
+
+      function animate() {
+        const rect = canvas.getBoundingClientRect();
+        ctx.clearRect(0, 0, rect.width, rect.height);
+        particles.forEach(p => {
+          p.update();
+          p.draw();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
   </script>
 </body>
 </html>
