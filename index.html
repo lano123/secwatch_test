@@ -134,10 +134,12 @@
 
     <!-- Hero -->
   <section id="home" class="relative overflow-hidden grid-bg">
-    <!-- CYBER-GLOW PARTICLE BACKGROUND -->
-    <canvas id="secwatch-bg" class="pointer-events-none absolute inset-0 -z-20"></canvas>
+    <!-- CYBER-GLOW častice len v hero sekcii -->
+    <div class="absolute inset-0 -z-20" aria-hidden="true">
+      <canvas id="secwatch-bg" class="h-full w-full"></canvas>
+    </div>
 
-    <!-- Tvoje existujúce farebné "bloby" -->
+    <!-- tvoje existujúce farebné bloby -->
     <div class="absolute inset-0 -z-10 opacity-20 dark:opacity-30" aria-hidden="true">
       <div class="absolute -top-32 -right-24 h-80 w-80 rounded-full blur-3xl bg-brand/30" data-parallax data-speed="0.2"></div>
       <div class="absolute -bottom-24 -left-24 h-80 w-80 rounded-full blur-3xl bg-brand/20" data-parallax data-speed="0.15"></div>
@@ -145,14 +147,22 @@
 
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28" data-animate="fade-up">
       <div class="max-w-3xl">
-        <span class="reveal inline-flex items-center gap-2 rounded-full border border-brand/40 px-3 py-1 text-xs font-semibold text-brand/90 bg-brand/5" data-i18n="hero_badge">Web Security • Penetration Testing • Management-ready reporting</span>
-        <h1 class="reveal mt-6 text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight" data-i18n="hero_title">Your web application. <span class="text-brand">Secured</span>.</h1>
-        <p class="reveal mt-5 text-base sm:text-lg text-zinc-600 dark:text-zinc-300 max-w-prose" data-i18n="hero_sub">We uncover critical vulnerabilities, explain business impact, and deliver a <strong>clear remediation plan</strong>. No fluff—just facts, proof, and results.</p>
+        <span class="reveal inline-flex items-center gap-2 rounded-full border border-brand/40 px-3 py-1 text-xs font-semibold text-brand/90 bg-brand/5" data-i18n="hero_badge">
+          Web Security • Penetration Testing • Management-ready reporting
+        </span>
+        <h1 class="reveal mt-6 text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight" data-i18n="hero_title">
+          Your web application. <span class="text-brand">Secured</span>.
+        </h1>
+        <p class="reveal mt-5 text-base sm:text-lg text-zinc-600 dark:text-zinc-300 max-w-prose" data-i18n="hero_sub">
+          We uncover critical vulnerabilities, explain business impact, and deliver a <strong>clear remediation plan</strong>. No fluff—just facts, proof, and results.
+        </p>
         <div class="reveal mt-8 flex flex-wrap gap-3">
           <a href="#contact" class="action-btn inline-flex items-center rounded-lg bg-brand text-zinc-900 font-semibold px-5 py-3 hover:brightness-110" data-i18n="hero_cta_primary">Get a quote</a>
           <a href="#services" class="inline-flex items-center rounded-lg border border-zinc-300 dark:border-zinc-700 px-5 py-3 hover:border-brand/60 hover:text-brand" data-i18n="hero_cta_secondary">See services</a>
         </div>
-        <div class="reveal mt-8 text-xs text-zinc-500 dark:text-zinc-400" data-i18n="hero_meta">Fast scheduling • NDA signed • Secure access</div>
+        <div class="reveal mt-8 text-xs text-zinc-500 dark:text-zinc-400" data-i18n="hero_meta">
+          Fast scheduling • NDA signed • Secure access
+        </div>
       </div>
     </div>
   </section>
