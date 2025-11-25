@@ -22,47 +22,26 @@
     }, animation: { floaty: 'floaty 4s ease-in-out infinite' } } } };
   </script>
   <style>
-        /* Animated hero graphic */
-    @keyframes spin-slow {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
+    .grid-bg { background-image: linear-gradient(to right, rgba(120,120,120,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(120,120,120,.06) 1px, transparent 1px); background-size: 24px 24px; }
+    .glass { backdrop-filter: blur(8px); background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)); }
 
-    @keyframes pulse-soft {
-      0%, 100% { opacity: .4; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.12); }
-    }
-
-    .animated-card {
-      position: relative;
-    }
-    .animated-orbit {
-      animation: spin-slow 18s linear infinite;
-      transform-origin: center;
-    }
-    .animated-pulse {
-      animation: pulse-soft 3s ease-in-out infinite;
-      transform-origin: center;
-    }
-
-
+    /* Motion system (accessible):
+       Add data-animate="fade|fade-up|fade-right|zoom|blur" and optional data-stagger to a container.
+       Elements with [data-animate] and children marked .reveal will animate in when scrolled into view. */
+    .reveal { opacity: 0; transform: translateY(12px); will-change: opacity, transform; }
+    .reveal.is-shown { opacity: 1; transform: translateY(0); }
+    /* variants */
     [data-animate="fade"] .reveal { transform: none; }
     [data-animate="fade-up"] .reveal { transform: translateY(16px); }
     [data-animate="fade-right"] .reveal { transform: translateX(16px); }
     [data-animate="zoom"] .reveal { transform: scale(.96); }
     [data-animate="blur"] .reveal { filter: blur(6px); }
-    [data-animate] .reveal {
-      transition: opacity .6s ease, transform .6s ease, filter .6s ease;
-    }
+    [data-animate] .reveal { transition: opacity .6s ease, transform .6s ease, filter .6s ease; }
     [data-animate] .reveal.is-shown { filter: blur(0); }
 
+    /* Respect users who prefer reduced motion */
     @media (prefers-reduced-motion: reduce) {
-      .reveal, [data-parallax] {
-        transition: none !important;
-        transform: none !important;
-        filter: none !important;
-        animation: none !important;
-      }
+      .reveal, [data-parallax] { transition: none !important; transform: none !important; filter: none !important; animation: none !important; }
     }
   </style>
   <script>
@@ -98,11 +77,11 @@
   <!-- Top bar / nav -->
   <header class="sticky top-0 z-40 border-b border-zinc-200/70 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/70 backdrop-blur transition-all duration-300" id="siteHeader">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="#home" class="flex items-center gap-3 font-semibold tracking-tight">
-        <img src="logo.png" alt="SecWatch logo"
-             class="h-8 sm:h-10 lg:h-12 w-auto rounded-md bg-brand/10 p-1" />
-        <span class="text-lg" data-i18n="brand">SecWatch</span>
-      </a>
+        <a href="#home" class="flex items-center gap-3 font-semibold tracking-tight">
+          <img src="logo.png" alt="SecWatch logo"
+               class="h-8 sm:h-10 lg:h-12 w-auto rounded-md bg-brand/10 p-1" />
+          <span class="text-lg" data-i18n="brand">SecWatch</span>
+        </a>
       <nav class="hidden md:flex items-center gap-3 lg:gap-6 text-sm font-medium">
         <a href="#home" class="hover:text-brand" data-i18n="nav_home">Home</a>
         <a href="#services" class="hover:text-brand" data-i18n="nav_services">Services</a>
@@ -153,129 +132,25 @@
     </nav>
   </div>
 
-  <!-- Hero with graphic -->
-    <!-- Hero s pohyblivou grafikou -->
+  <!-- Hero -->
   <section id="home" class="relative overflow-hidden grid-bg">
     <div class="absolute inset-0 -z-10 opacity-20 dark:opacity-30" aria-hidden="true">
       <div class="absolute -top-32 -right-24 h-80 w-80 rounded-full blur-3xl bg-brand/30" data-parallax data-speed="0.2"></div>
       <div class="absolute -bottom-24 -left-24 h-80 w-80 rounded-full blur-3xl bg-brand/20" data-parallax data-speed="0.15"></div>
     </div>
-
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28" data-animate="fade-up">
-      <div class="grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] items-center">
-        <!-- Text vlavo -->
-        <div class="max-w-3xl">
-          <span class="reveal inline-flex items-center gap-2 rounded-full border border-brand/40 px-3 py-1 text-xs font-semibold text-brand/90 bg-brand/5" data-i18n="hero_badge">
-            Web Security • Penetration Testing • Management-ready reporting
-          </span>
-          <h1 class="reveal mt-6 text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight" data-i18n="hero_title">
-            Your web application. <span class="text-brand">Secured</span>.
-          </h1>
-          <p class="reveal mt-5 text-base sm:text-lg text-zinc-600 dark:text-zinc-300 max-w-prose" data-i18n="hero_sub">
-            We uncover critical vulnerabilities, explain business impact, and deliver a <strong>clear remediation plan</strong>. No fluff—just facts, proof, and results.
-          </p>
-          <div class="reveal mt-8 flex flex-wrap gap-3">
-            <a href="#contact" class="action-btn inline-flex items-center rounded-lg bg-brand text-zinc-900 font-semibold px-5 py-3 hover:brightness-110" data-i18n="hero_cta_primary">
-              Get a quote
-            </a>
-            <a href="#services" class="inline-flex items-center rounded-lg border border-zinc-300 dark:border-zinc-700 px-5 py-3 hover:border-brand/60 hover:text-brand" data-i18n="hero_cta_secondary">
-              See services
-            </a>
-          </div>
-          <div class="reveal mt-8 text-xs text-zinc-500 dark:text-zinc-400" data-i18n="hero_meta">
-            Fast scheduling • NDA signed • Secure access
-          </div>
+      <div class="max-w-3xl">
+        <span class="reveal inline-flex items-center gap-2 rounded-full border border-brand/40 px-3 py-1 text-xs font-semibold text-brand/90 bg-brand/5" data-i18n="hero_badge">Web Security • Penetration Testing • Management-ready reporting</span>
+        <h1 class="reveal mt-6 text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight" data-i18n="hero_title">Your web application. <span class="text-brand">Secured</span>.</h1>
+        <p class="reveal mt-5 text-base sm:text-lg text-zinc-600 dark:text-zinc-300 max-w-prose" data-i18n="hero_sub">We uncover critical vulnerabilities, explain business impact, and deliver a <strong>clear remediation plan</strong>. No fluff—just facts, proof, and results.</p>
+        <div class="reveal mt-8 flex flex-wrap gap-3">
+          <a href="#contact" class="action-btn inline-flex items-center rounded-lg bg-brand text-zinc-900 font-semibold px-5 py-3 hover:brightness-110" data-i18n="hero_cta_primary">Get a quote</a>
+          <a href="#services" class="inline-flex items-center rounded-lg border border-zinc-300 dark:border-zinc-700 px-5 py-3 hover:border-brand/60 hover:text-brand" data-i18n="hero_cta_secondary">See services</a>
         </div>
-
-        <!-- Pohyblivý obrázok vpravo -->
-        <div class="reveal lg:justify-self-end w-full max-w-md">
-          <div class="animated-card rounded-2xl glass border border-zinc-200/60 dark:border-zinc-800/80 p-4 shadow-xl bg-white/10 dark:bg-zinc-950/40 overflow-hidden">
-            <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-brand/10 via-transparent to-zinc-900/60 opacity-80"></div>
-
-            <!-- Inline SVG – radar + štít -->
-            <svg
-              viewBox="0 0 320 220"
-              class="relative w-full h-auto rounded-xl border border-zinc-800/70 bg-zinc-950/80"
-            >
-              <!-- jemná mriežka -->
-              <defs>
-                <pattern id="grid" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
-                  <path d="M16 0H0V16" fill="none" stroke="#1e293b" stroke-width="0.5"/>
-                </pattern>
-                <linearGradient id="radarStroke" x1="0" x2="1" y1="0" y2="0">
-                  <stop offset="0" stop-color="#22c55e"/>
-                  <stop offset="1" stop-color="#00ff99"/>
-                </linearGradient>
-              </defs>
-
-              <rect x="0" y="0" width="320" height="220" fill="url(#grid)" opacity="0.5"/>
-
-              <!-- kruhový radar -->
-              <g transform="translate(160 110)">
-                <!-- pulzujúci kruh -->
-                <circle r="78" fill="none" stroke="#0f172a" stroke-width="10" class="animated-pulse"/>
-                <!-- statické kruhy -->
-                <circle r="60" fill="none" stroke="#1f2937" stroke-width="1.5"/>
-                <circle r="40" fill="none" stroke="#1f2937" stroke-width="1.5"/>
-
-                <!-- točiaca sa "metla" radaru -->
-                <g class="animated-orbit">
-                  <path d="M0 0 L78 0" stroke="url(#radarStroke)" stroke-width="3" stroke-linecap="round"/>
-                  <circle cx="78" cy="0" r="5" fill="#00ff99"/>
-                </g>
-
-                <!-- bodky – nálezy -->
-                <circle cx="-32" cy="-18" r="4" fill="#f97316"/>
-                <circle cx="20" cy="26" r="4" fill="#ef4444"/>
-                <circle cx="10" cy="-36" r="3" fill="#22c55e"/>
-              </g>
-
-              <!-- štít v strede -->
-              <g transform="translate(160 110)">
-                <path
-                  d="M0 -64 L-38 -50 V-12 C-38 16 -18 42 0 52 C18 42 38 16 38 -12 V-50 Z"
-                  fill="#020617"
-                  stroke="#00ff99"
-                  stroke-width="2"
-                />
-                <path
-                  d="M0 -45 A22 22 0 0 0 -22 -23 V-7 A22 22 0 0 0 0 15 A22 22 0 0 0 22 -7 V-23 A22 22 0 0 0 0 -45 Z"
-                  fill="#0b1120"
-                />
-                <circle cx="0" cy="-14" r="6" fill="#00ff99"/>
-                <rect x="-2" y="-10" width="4" height="18" rx="2" fill="#00ff99"/>
-              </g>
-            </svg>
-
-            <!-- Info text pod SVG -->
-            <div class="relative mt-3 grid gap-2 text-[11px] text-zinc-300 font-mono">
-              <div class="flex items-center justify-between">
-                <span>env: production</span>
-                <span class="text-brand">scan: active</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span>critical:</span>
-                <span class="text-red-400">3</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span>high / medium:</span>
-                <span class="text-amber-300">5 / 4</span>
-              </div>
-            </div>
-
-            <div class="relative mt-3 text-[11px] text-zinc-400 flex items-center justify-between">
-              <span>Manual testing • OWASP ASVS • PoC screenshots</span>
-              <span class="inline-flex items-center gap-1 text-brand/90">
-                <span class="h-1.5 w-1.5 rounded-full bg-brand/80"></span>
-                SecWatch
-              </span>
-            </div>
-          </div>
-        </div>
+        <div class="reveal mt-8 text-xs text-zinc-500 dark:text-zinc-400" data-i18n="hero_meta">Fast scheduling • NDA signed • Secure access</div>
       </div>
     </div>
   </section>
-
 
   <!-- Trust / badges -->
   <section class="py-10 border-y border-zinc-200/70 dark:border-zinc-800/80" data-animate="fade-up">
@@ -322,10 +197,7 @@
         </div>
       </div>
       <div class="reveal mt-10 rounded-2xl glass border border-zinc-200/50 dark:border-zinc-800/60 p-6">
-        <p class="text-sm text-zinc-600 dark:text-zinc-300" data-i18n="tip_text">
-          <span class="font-semibold text-brand">Pro tip:</span>
-          Minimize attack surface—remove unused subdomains, outdated JS libraries, and default admin paths. In practice this often cuts critical findings by dozens of percent.
-        </p>
+        <p class="text-sm text-zinc-600 dark:text-zinc-300" data-i18n="tip_text"><span class="font-semibold text-brand">Pro tip:</span> Minimize attack surface—remove unused subdomains, outdated JS libraries, and default admin paths. In practice this often cuts critical findings by dozens of percent.</p>
       </div>
     </div>
   </section>
@@ -408,65 +280,28 @@
     </div>
   </section>
 
-  <!-- About (short) with graphic report preview -->
+  <!-- About (short) -->
   <section id="about" class="py-20 bg-zinc-50 dark:bg-zinc-900/40" data-animate="fade-up" data-stagger="80">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="grid gap-10 md:grid-cols-2 items-start">
         <div class="reveal">
           <h2 class="text-3xl sm:text-4xl font-bold" data-i18n="about_title">Who is SecWatch</h2>
-          <p class="mt-4 text-zinc-600 dark:text-zinc-300" data-i18n="about_p1">
-            We are a security studio focused on web applications. We combine OWASP methods, bug bounty experience, and pragmatic thinking to deliver value fast—without noise.
-          </p>
+          <p class="mt-4 text-zinc-600 dark:text-zinc-300" data-i18n="about_p1">We are a security studio focused on web applications. We combine OWASP methods, bug bounty experience, and pragmatic thinking to deliver value fast—without noise.</p>
           <ul class="mt-6 space-y-2 text-sm list-disc pl-5 text-zinc-600 dark:text-zinc-300">
             <li data-i18n="about_l1">Ethical hacking with real-world focus</li>
             <li data-i18n="about_l2">Clear explanations for management and devs</li>
             <li data-i18n="about_l3">NDA, safe handling of credentials and data</li>
           </ul>
         </div>
-
         <div class="reveal rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 bg-white/40 dark:bg-zinc-950/40">
           <h3 class="font-semibold" data-i18n="about_box_title">What you get in the report</h3>
-
           <div class="mt-4 grid gap-4 sm:grid-cols-2">
-            <!-- graphic “report preview” -->
-            <div class="relative sm:col-span-2 rounded-xl border border-zinc-200/70 dark:border-zinc-800/80 bg-gradient-to-br from-zinc-900 via-zinc-950 to-zinc-900 p-4 overflow-hidden">
-              <div class="absolute -top-10 -right-6 h-24 w-24 rounded-full bg-brand/20 blur-2xl"></div>
-              <div class="flex items-center justify-between text-[11px] text-zinc-400">
-                <span>SECWATCH REPORT</span>
-                <span class="inline-flex items-center gap-1">
-                  <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
-                  v1.0
-                </span>
-              </div>
-              <div class="mt-3 text-xs text-zinc-200 font-mono">
-                <div class="flex items-center justify-between">
-                  <span>Target</span>
-                  <span class="text-zinc-400">webapp.company.tld</span>
-                </div>
-                <div class="flex items-center justify-between mt-1">
-                  <span>Findings</span>
-                  <span class="text-brand font-semibold">12 (3 critical)</span>
-                </div>
-              </div>
-              <div class="mt-3 h-1.5 w-full rounded-full bg-zinc-800 overflow-hidden">
-                <div class="h-full w-3/4 bg-brand"></div>
-              </div>
-              <div class="mt-3 grid grid-cols-3 gap-2 text-[11px] text-zinc-300">
-                <div class="rounded-md bg-zinc-900/80 px-2 py-1">XSS</div>
-                <div class="rounded-md bg-zinc-900/80 px-2 py-1">IDOR</div>
-                <div class="rounded-md bg-zinc-900/80 px-2 py-1">Auth logic</div>
-              </div>
-            </div>
-
             <div class="text-sm" data-i18n="about_box_1">• Prioritized findings (CVSS)</div>
             <div class="text-sm" data-i18n="about_box_2">• PoC steps + screenshots</div>
             <div class="text-sm" data-i18n="about_box_3">• Business impact & risks</div>
             <div class="text-sm" data-i18n="about_box_4">• Recommended fixes</div>
           </div>
-
-          <p class="mt-4 text-sm text-zinc-600 dark:text-zinc-300" data-i18n="about_box_note">
-            Bonus: short results call and recommendations. "Standard" includes 1x <em>retest</em>.
-          </p>
+          <p class="mt-4 text-sm text-zinc-600 dark:text-zinc-300" data-i18n="about_box_note">Bonus: short results call and recommendations. "Standard" includes 1x <em>retest</em>.</p>
         </div>
       </div>
     </div>
@@ -487,9 +322,7 @@
             </div>
           </div>
           <div class="justify-self-start md:justify-self-end">
-            <a href="mailto:info@secwatch.sk?subject=Web%20Security%20Audit%20Request" class="action-btn inline-flex items-center rounded-lg bg-brand text-zinc-900 font-semibold px-5 py-3 hover:brightness-110" data-i18n="cta_btn">
-              Send request
-            </a>
+            <a href="mailto:info@secwatch.sk?subject=Web%20Security%20Audit%20Request" class="action-btn inline-flex items-center rounded-lg bg-brand text-zinc-900 font-semibold px-5 py-3 hover:brightness-110" data-i18n="cta_btn">Send request</a>
           </div>
         </div>
       </div>
@@ -508,6 +341,7 @@
   </footer>
 
   <script>
+    // i18n dictionary (trimmed for brevity – paste your full dict here if you want full bilingual content)
     const dict = {
       en: {
         brand:'SecWatch', nav_home:'Home', nav_services:'Services', nav_process:'How we work', nav_pricing:'Pricing', nav_about:'About', nav_contact:'Contact', nav_theme:'Theme', cta_nav:'Request audit',
@@ -537,11 +371,10 @@
       });
       document.documentElement.setAttribute('lang', lang);
       localStorage.setItem('lang', lang);
-      document.title = lang === 'en'
-        ? 'SecWatch – Web Security & Penetration Testing'
-        : 'SecWatch – Penetračné testy a web security';
+      document.title = lang === 'en' ? 'SecWatch – Web Security & Penetration Testing' : 'SecWatch – Penetračné testy a web security';
     }
 
+    // Theme toggle icons
     function syncThemeIcon(){
       const isDark = document.documentElement.classList.contains('dark');
       document.getElementById('iconSun').classList.toggle('hidden', !isDark);
@@ -555,6 +388,7 @@
       syncThemeIcon();
     });
 
+    // Language toggle (desktop + mobile)
     const langBtn = document.getElementById('langToggle');
     const startLang = localStorage.getItem('lang') || 'en';
     langBtn.textContent = startLang.toUpperCase();
@@ -580,6 +414,7 @@
       });
     }
 
+    // Mobile menu toggle
     const menuBtn = document.getElementById('menuBtn');
     const mobileNav = document.getElementById('mobileNav');
     const mobileClose = document.getElementById('mobileClose');
@@ -607,42 +442,47 @@
     document.querySelectorAll('#mobileNav a').forEach(a=> a.addEventListener('click', closeMenu));
     document.addEventListener('keydown', (e)=>{ if (e.key==='Escape') closeMenu(); });
 
+    // Sticky header shrink on scroll
+    let lastY = window.scrollY;
     const header = document.getElementById('siteHeader');
     window.addEventListener('scroll', () => {
       const y = window.scrollY;
       header.classList.toggle('backdrop-blur-lg', y > 10);
       header.classList.toggle('h-14', y > 10);
       header.classList.toggle('h-16', y <= 10);
+      lastY = y;
     });
 
+    // IntersectionObserver reveal engine
     const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         const container = entry.target;
         if (entry.isIntersecting) {
-          const items = container.classList.contains('reveal')
-            ? [container]
-            : container.querySelectorAll('.reveal');
+          const items = container.classList.contains('reveal') ? [container] : container.querySelectorAll('.reveal');
           const baseDelay = parseInt(container.getAttribute('data-stagger')||'60',10);
           items.forEach((el, i) => {
             el.style.transitionDelay = Math.min(i*baseDelay, 600) + 'ms';
             el.classList.add('is-shown');
           });
+          // Number counters inside this container
           container.querySelectorAll('[data-count]').forEach(el => animateCount(el));
-          io.unobserve(container);
+          io.unobserve(container); // animate once
         }
       });
     }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
 
     document.querySelectorAll('[data-animate], .reveal').forEach(el => io.observe(el));
 
+    // Count-up animation for numbers (simple, integer)
     function animateCount(el){
       const target = parseInt(el.getAttribute('data-count'),10);
       if (isNaN(target)) return;
-      const duration = 900 + Math.min(target, 1500);
+      const str = target.toString();
+      const duration = 900 + Math.min(target, 1500); // a bit snappier for bigger numbers
       const start = performance.now();
       function tick(now){
         const t = Math.min((now - start)/duration, 1);
-        const eased = t*(2-t);
+        const eased = t*(2-t); // easeOutQuad
         const val = Math.floor(eased * target);
         el.textContent = '€' + val.toLocaleString('sk-SK');
         if (t < 1) requestAnimationFrame(tick);
@@ -650,6 +490,7 @@
       requestAnimationFrame(tick);
     }
 
+    // Parallax blobs (very light)
     const parallaxEls = document.querySelectorAll('[data-parallax]');
     window.addEventListener('scroll', () => {
       const y = window.scrollY;
@@ -659,6 +500,7 @@
       });
     }, { passive: true });
 
+    // Magnetic CTA buttons (tiny hover effect)
     document.querySelectorAll('.action-btn').forEach(btn => {
       const strength = 12;
       btn.addEventListener('mousemove', e => {
@@ -670,6 +512,7 @@
       btn.addEventListener('mouseleave', () => { btn.style.transform = 'translate(0,0)'; });
     });
 
+    // Init
     syncThemeIcon();
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
